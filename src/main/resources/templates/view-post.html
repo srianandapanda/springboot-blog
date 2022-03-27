@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nesteen- Blog</title>
+    <style>
+div {
+  width: 300px;
+  border: 2px solid black;
+  width: 800px;
+  padding: 50px;
+  margin-left: auto;
+  margin-right:auto;
+}
+.first{
+border: none;
+border-outline:none;
+padding-right:6rem;
+margin-right:4rem !important;
+align-item :left;
+}
+h2 {text-align: center;}
+p {text-align: center;}
+    </style>
+</head>
+<body>
+<div>
+    <h2 th:text="${posts.title}"></h2>
+    <p th:text="${tags}"></p>
+    <p th:text="${posts.author}"></p>
+    <p th:text="${#temporals.format(posts.publishedAt, 'dd-MM-yyyy HH:mm')}"></p>
+    <p th:text="${posts.content}"></p>
+</div>
+<p><a th:href="@{/post/blog}">Back to Blog Post</a></p>
+<h2>Comments :</h2>
+    <form action="#" th:action="@{/post/comment}" th:object="${theComment}" method="get">
+        <input type="hidden" th:field="*{id}">
+        <span sec:authorize="!isAuthenticated()">
+            <center><input type="text" th:field="*{name}"  placeholder="User Name" style="height: 50px; width:1200px;" ></input></center>
+        </span>
+        <br>
+        <span sec:authorize="!isAuthenticated()">
+            <center><input type="text" th:field="*{email}"  placeholder="Email" style="height: 50px; width:1200px;" ></input></center>
+        </span>
+        <br>
+        <center><input type="text" th:field="*{comment}"  placeholder="Drop a comment." style="height: 50px; width:1200px;" ></input></center>
+        <br>
+        <!--<input type="hidden" th:value="posts.id" th:name="postId">-->
+        <div class="first"><input type="submit" value="Post"></div>
+    </form>
+    <div th:each="theComment: ${comments}">
+    <h3 th:text="${theComment.name}"></h3>
+        <p th:text="${theComment.updatedAt}"></p>
+    <p th:text="${theComment.comment}"></p>
+        <span sec:authorize="isAuthenticated()">
+            <span th:if="${theComment.name == #authentication.getPrincipal().getName()}">
+                <form action="#" th:action="@{/post/updateComment(commentId=${theComment.id})}" th:object="${post}" method="post">
+                    <input type="submit" value="Edit Comment">
+                </form>
+            </span>
+        </span>
+        <span sec:authorize="hasAuthority('ADMIN')">
+            <form action="#" th:action="@{/post/updateComment(commentId=${theComment.id})}" th:object="${post}" method="post">
+                <input type="submit" value="Edit Comment">
+            </form>
+        </span>
+        <br>
+        <span sec:authorize="isAuthenticated()">
+            <span th:if="${theComment.name == #authentication.getPrincipal().getName()}">
+            <form action="#" th:action="@{/post/deleteComment(postId=${theComment.id})}" th:object="${post}" method="post"
+                onsubmit="if (!(confirm('Are you sure to delete comment?'))) return false">
+                <input type="submit" value="Delete Comment">
+            </form>
+            </span>
+        </span>
+        <span sec:authorize="hasAuthority('ADMIN')">
+            <form action="#" th:action="@{/post/deleteComment(postId=${theComment.id})}" th:object="${post}" method="post"
+                  onsubmit="if (!(confirm('Are you sure to delete comment?'))) return false">
+                <input type="submit" value="Delete Comment">
+            </form>
+        </span>
+    </div>
+</body>
+</html>
+
+<!--@{/post/delete(postId=${tempPost.id})}    @{/post/comment}         @{/post/comment(postId=${posts.id})}  -->
+
+

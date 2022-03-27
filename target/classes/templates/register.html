@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nesteen-Create Account</title>
+    <style type="text/css">
+        .center{
+			margin: auto;
+            width: 60%;
+            padding: 10px;
+		}
+    </style>
+</head>
+<body>
+<div class="center" align="center">
+    <font size="5">
+        <h3>Create Account</h3><br>
+        <div th:if="${param.success}">You have successfully registered</div>
+        <form th:action="@{/post/register}" method="post" th:object="${user}">
+        <input type="text" th:field="*{name}" placeholder="Name" style="width: 250px;height:40px;" required><br><br>
+        <input type="email" th:field="*{email}" placeholder="Email" style="width: 250px;height:40px;" required><br><br>
+        <input type="password" th:field="*{password}" placeholder="Password" style="width: 250px;height:40px;" required><br><br>
+        <!--<input type="password" placeholder="Confirm Password" style="width: 250px;height:40px;" required><br><br>-->
+        <input type="submit" value="Submit" style="width: 160px;height:27px;"><br><br>
+        </form>
+        <p>Have account? <a th:href="@{/post/login}"> Login</a></p>
+    </font>
+</div>
+</body>

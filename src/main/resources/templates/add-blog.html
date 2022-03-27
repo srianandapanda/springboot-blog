@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nesteen- Create Blog</title>
+    <style>
+        div {
+
+  width: 1200px;
+  padding: 10px;
+  margin-left: auto;
+  margin-right:auto;
+  height 50px;
+}
+    </style>
+</head>
+<body>
+
+    <h1 align="center" style="font-size: 50px"><em>New/Edit Post</em></h1>
+
+        <form action="#" th:object="${post}" th:action="@{/post/publish}"  method="post"> <!-- th:object="${post}" -->
+            <input type="hidden" th:field="*{id}">
+            <div><input type="text" th:field="*{title}" placeholder="Title" style="height: 50px; width:1200px;" ></input>
+                <!--<select id="sss">
+                    <option  selected disabled>Tags</option>
+                    <option th:each="tempTag: ${tags}" th:value="${tempTag.name}" th:text="${tempTag.name}"></option>
+                </select>-->
+                <br>
+            </div>
+              <div><input th:field="*{tag}" type="text"  placeholder="Tags" style="height: 50px; width:1200px;"></input></div> <!-- th:name="tags" -->
+            <!--<div><input type="text" th:field="*{author}" placeholder="Author" style="height: 50px; width:1200px;" ></input><br></div>-->
+            <!-- <input type="hidden" th:filed="*{author}" th:text="${#authentication.getPrincipal().getName()}">-->
+             <div><textarea th:field="*{content}" th:name="excerpt" rows="40" cols="148"></textarea></div>
+             <div style="text-align:center"> <input type="submit" value="Publish" style="height:60px; width:150px"></div>
+         </form>
+ <a th:href="@{/post/blog}">Back to Blog Post</a>
+
+ </body>
+ </html>

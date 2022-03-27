@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nesteen</title>
+    <style type="text/css">
+		body{
+			background-image: url(bgpic.jpg);
+			background-size: 100%;
+			margin-top: 0px;
+		}
+		table{
+			margin-top: 0px;
+		}
+		.first{
+			font-family: Brush Script MT;
+	  	font-size: 40px;
+	  	color: rgb(210, 105, 30);
+	  	background: linear-gradient(to right,rgb(255, 235, 205),rgb(255, 235, 205));
+	  	padding-left: 10px;
+	  	padding-right: 10px;
+	  	padding-top: 10px;
+	  	padding-bottom: 10px;
+	  	border-width: 0px;
+	  	margin-top: 0px;
+	  	margin-left: 0px;
+	  	margin-right: 0px;
+	  	margin-bottom: 0px;
+	  	border-style: solid;
+	  	border-color: black;
+	  	background-color: black;
+
+		}
+		.second{
+			margin-top: 0px;
+			margin-left: 0px;
+			margin-bottom: 0px;
+			margin-right: 0px;
+		}
+		#sidebar{
+		position:absolute;
+		width: 200px;
+		height: 100%;
+		background:white;
+		right: -200px;
+		transition: all 500ms linear;
+
+	}
+	#sidebar ul  li{
+		color: black;
+		list-style: none;
+		padding: 15px 10px;
+		border-bottom: 1px solid rgba(100,100,100,0.3);
+
+			}
+	#sidebar .toggle-btn{
+		position: absolute;
+		right: 230px;
+		top: -55px;
+	}
+	#sidebar .toggle-btn span{
+		display: block;
+		width: 30px;
+		height: 5px;
+		background:black;
+		margin: 5px 0px;
+
+	}
+	#sidebar.active{
+		right: 0px;
+	}
+	.sixth{
+		font-size: 20px;
+		font-family: calibary;
+		color: white;
+	}
+	.eight{
+			padding-top: 10px;
+	  	padding-bottom: 10px;
+	  	padding-right: 20px;
+	  	padding-left: 20px;
+	  	background-color: white;
+	    font-weight: bold;
+	    border-width: 1px;
+	    border-color: black;
+	    text-align: center;
+	    color:
+	}
+	.nine{padding-top: 10px;
+	  	padding-bottom: 10px;
+	  	padding-right: 20px;
+	  	padding-left: 20px;
+	  	background-color: rgba(255,255,255,0.6);
+	    font-size: 20px;
+	    margin-left: 20px;
+	    	}
+	.eleven{ padding-top: 20px;
+		padding-bottom: 20px;
+
+		margin-left: 20px;
+		padding-left: 20px;
+	  	background-color: rgba(255,255,255,0.6);
+	    font-size: 15px;
+
+
+	}
+	.twelve{
+		 padding-top: 50px;
+		padding-bottom: 50px;
+		margin-left: 20px;
+		padding-left: 30px;
+		margin-top: -10px;
+		padding-right: 10px;
+	  	background-color: rgba(255,255,255,0.6);
+	    font-size: 20px;
+
+	}
+	.www{
+		font-size: 20px;
+		font-style: italic;
+	}
+	.aaa{
+		font-size: 16px;
+		color: black;
+		font-family: arial narrow;
+	}
+	.eight:hover{
+		background-color: rgb(225,225,225);
+		color: black;
+	}
+	.wxyz:hover{
+		background-color: black;
+		color: white;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.twelvee{
+		color: black;
+	}
+	.twelvee:hover{
+		background-color: rgba(0,0,0,0.6);
+		padding-top: 10px;
+		padding-bottom: 10px;
+		color: white;
+
+
+	}
+	.eightt{
+		color:green;
+	}
+	.qqq:hover{
+		background-color: black;
+		color: white;
+	}
+	</style>
+</head>
+<body>
+    <p class="first" align="center"><b>Nesteen</b></p>
+    <table width="100%" class="second">
+        <tr height="50px" class="sixth">
+            <td class="eight"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                <input type="Search" placeholder="  Search..." name="" style="font-size: 20px;">
+                <button type="submit" style="font-size: 20px;" class="qqq"><i class="fa fa-search"></i></button>
+            </td>
+            <td class="eight" colspan="2"><a href="" style="text-decoration: none;" class="eightt"> Filter Blogs</a></td>
+            <td align="center" class="eight"><a href="" style="text-decoration: none;" class="eightt"> Sort</a></td>
+            <td class="eight"><a href="login.html" style="text-decoration: none;" class="eightt"> <b>Login</b></a></td>
+            <td class="eight"><a href="register.html"style="text-decoration: none;" class="eightt">Sign Up</a> </td>
+
+        </tr>
+        <tr th:each="tempPost : ${posts}">
+            <td th:text="${tempPost.title}"></td>
+            <td th:text="${tempPost.excerpt}"></td>
+            <td th:text="${tempPost.createdAt}"></td>
+            <td th:text="${tempPost.updatedAt}"></td>
+
+        </tr>
+    </table>
+</body>
+</html>
+
+
+
+<td><h3 th:text="${tempPost.title}"></h3>
+    <p th:text="${tempPost.author}"></p>
+    <p th:text="${tempPost.createdAt}"></p>
+    <p th:text="${tempPost.excerpt}"></p></td>
+<td><h3 th:text="${tempPost.title}"></h3>
+    <p th:text="${tempPost.author}"></p>
+    <p th:text="${tempPost.createdAt}"></p>
+    <p th:text="${tempPost.excerpt}"></p></td>
+</td>
+
+

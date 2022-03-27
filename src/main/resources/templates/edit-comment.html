@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Comment</title>
+</head>
+<body>
+<form action="#" th:object="${comments}" th:action="@{/post/viewpost}"  method="get"> <!-- th:object="${post}" -->
+    <input type="hidden" th:field="*{id}">
+    <div><input type="text" th:field="*{name}" placeholder="Title" style="height: 50px; width:1200px;" ></input>
+        <!--<select id="sss">
+            <option  selected disabled>Tags</option>
+            <option th:each="tempTag: ${tags}" th:value="${tempTag.name}" th:text="${tempTag.name}"></option>
+        </select>-->
+        <br>
+    </div>
+    <div><input th:field="*{email}" type="text"  placeholder="Tags" style="height: 50px; width:1200px;"></input></div> <!-- th:name="tags" -->
+    <div><input type="text" th:field="*{comment}" placeholder="Author" style="height: 50px; width:1200px;" ></input><br></div>
+    <div style="text-align:center"> <input type="submit" value="Publish" style="height:60px; width:150px"></div>
+</form>
+</body>
+</html>

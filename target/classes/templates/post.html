@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nesteen- Blog Post</title>
+    <style>
+div {
+  width: 300px;
+  border: 2px solid black;
+  width: 800px;
+  padding: 50px;
+  margin-left: auto;
+  margin-right:auto;
+}
+select {
+        border: 2px solid black;
+        width: 200px;
+        margin: 10px;
+        height: 40px;
+    }
+table, th, td {
+border-collapse: collapse;
+width: 1200px;
+
+margin-left: auto;
+margin-right:auto;
+}
+form {
+    display: inline-block; //Or display: inline;
+}
+#sidebar{
+		position:absolute;
+		width: 200px;
+		height: 100%;
+		background:white;
+		right: -200px;
+		transition: all 500ms linear;
+
+	}
+#sidebar ul  li{
+		color: black;
+		list-style: none;
+		padding: 15px 10px;
+		border-bottom: 1px solid rgba(100,100,100,0.3);
+
+			}
+	#sidebar .toggle-btn{
+		position: absolute;
+		right: 230px;
+		top: -55px;
+		float-right: 100%;
+	}
+	#sidebar .toggle-btn span{
+		display: block;
+		width: 30px;
+		height: 5px;
+		background:black;
+		margin: 5px 0px;
+
+	}
+	#sidebar.active{
+		right: 0px;
+	}
+	.toggle-btn{
+	border: none;
+	margin-right: auto;
+    margin-left: 0;
+    width:0px;
+	}
+</style>
+</head>
+<body>
+<p sec:authorize="isAuthenticated()">
+<a href="/logout">Logout</a>
+</p>
+<span id="sidebar">
+    <div class="toggle-btn" onclick="document.getElementById('sidebar').classList.toggle('active');">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <form th:action="@{'/post/filter/page/' + ${currentPage}}" method="get" th:object="${filterData}"><!--  (FilterBy=${filterField}) -->
+        <ul><li><input type="submit" value="Filter"></li></ul>
+    <ul th:each="tempPost: ${filterAuthorData}">
+        <li><input type="checkbox" th:field="*{author}"  th:value="${tempPost}"> <!--        <li><input type="checkbox"  th:value="${tempPost.author}"> -->
+            <label th:text="${tempPost}"></label>
+        </li>
+    </ul>
+        <ul th:each="tempPost: ${filterDateData}">
+        <li><input type="checkbox" th:field="*{date}"  th:value="${tempPost}"> <!--        <li><input type="checkbox"  th:value="${tempPost.author}"> -->
+            <label th:text="${tempPost}"></label>
+        </li>
+    </ul>
+        <ul th:each="tempPost: ${filterTagData}">
+        <li><input type="checkbox" th:field="*{tags}"  th:value="${tempPost.name}"> <!--        <li><input type="checkbox"  th:value="${tempPost.author}"> -->
+            <label th:text="${tempPost.name}"></label>
+        </li>
+    </ul>
+
+        </form>
+</span>
+<table>
+    <!--<tr>
+        <td><h1 style="font-size: 50px">My Blog Application</h1></td>
+        <td><form action="#" th:action="@{'/post/search/page/' + ${currentPage}}"  method="get">
+            <input type="hidden" th:name="searchField" th:value="searchBy">
+            <input type="text" th:name="search"  placeholder="Search">
+            <input id="txtSearch" type="text" name="keyword">
+            <input type="submit" value="Search">
+        </form>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a th:href="@{/post/login}" style="font-size: 25px">Login</a></td>
+    </tr>-->
+    <tr>
+        <td><h1 style="font-size: 50px">My Blog Application</h1></td>
+        <td></td>
+        <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!--<form action="#" th:action="@{/post/sort(sortField=${sortField})}" th:object="${post}" method="get">
+                <input type="hidden" th:name="sortField" th:value="publishedAt">
+                <input type="submit" value="Sort Blog" style="height:42px; width:200px">
+            </form>-->
+            <a th:href="@{'/post/sorted/page/' + ${currentPage} + '/publishedAt'}">Sort Data</a> <!--  ?sortDir=' + ${reverseSortDir}}  -->
+            <!--<form action="#" th:action="@{/post/filter(FilterBy=${filterField})}" th:object="${post}" method="get">
+                <input type="hidden" th:name="filterField" th:value="selectedValue">
+            <select th:name="filterAuthorValue">
+                <option selected disabled> Select...</option>
+                <option selected disabled> Author</option>
+                <option th:value="1_Rajesh_Pradhan" th:text="Rajesh"></option>
+                <option th:text="Sachin" th:value="1_Sachin_Baral"></option>
+                <option th:text="Vivek" th:value="1_Vivek_Sahu"></option>
+                <option th:text="Abhay" th:value="1_Abhay_Singh"></option>
+                <option th:text="Soumya" th:value="1_Soumya_Dash"></option>
+            </select>
+                <select th:name="filterDateValue">
+                <option selected disabled> Date</option>
+                <option th:value="2_2022-03-18" th:text="18-March-2022"></option>
+                <option th:value="2_2022-03-19" th:text="19-March-2022"></option>
+                <option th:value="2_2022-03-20" th:text="20-March-2022"></option>
+                <option th:value="2_2022-03-21" th:text="21-March-2022"></option>
+                <option th:value="2_2022-03-22" th:text="22-March-2022"></option>
+                <option th:value="2_2022-03-23" th:text="23-March-2022"></option>
+                </select>
+                <select th:name="filterTagsValue">
+                <option selected disabled> Tags</option>
+                <option th:value="3_CodingStandard" th:text="CodingStandard"></option>
+                <option th:value="3_Java" th:text="Java"></option>
+                <option th:value="3_Collection" th:text="Collection"></option>
+                <option th:value="3_DataBase" th:text="DataBase"></option>
+                <option th:value="3_Story" th:text="Story"></option>
+                <option th:value="3_Culture" th:text="Culture"></option>
+            </select>
+                <input type="submit" value="Filter" style="height:42px; width:200px">
+            </form>-->
+
+        <td><form action="#" th:action="@{'/post/search/page/' + ${currentPage}}"  method="get">  <!-- (sortField=${searchField}) th:object="${post}" -->
+            <!--<input type="hidden" th:name="searchField" th:value="searchBy">-->
+            <!--<input type="text" th:name="search"  placeholder="Search">-->
+            <input id="txtSearch" type="text" name="keyword">
+            <input type="submit" value="Search">
+        </form>
+                  <!-- <span th:text="${#authentication.getPrincipal().getName()}">User</span>-->
+        <p sec:authorize="isAuthenticated()">
+            Welcome, <!--<span sec:authentication="name">Username</span>-->
+            <span th:text="${#authentication.getPrincipal().getName()}">User</span>
+        </p>
+        <p sec:authorize="!isAuthenticated()">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a th:href="@{/post/login}" style="font-size: 25px">Login</a></td>
+        </p>
+        </td>
+    </tr>
+</table>
+   <p sec:authorize="hasAnyAuthority('AUTHOR','ADMIN')">
+    <a th:href="@{/post/newPost}">
+        Write a blog
+    </a>
+   </p>
+<br><br>
+<table>
+    <tr th:each="tempPost: ${posts}">
+        <input type="hidden" th:name="endPage" th:value="${tempPost.Id}">
+        <input type="hidden" th:name="startPage" th:value="${tempPost.Id}">
+        <div><h3 th:text="${tempPost.title}"></h3>
+            <p th:text="${tempPost.author}"></p>
+            <p th:text="${#temporals.format(tempPost.publishedAt, 'dd-MM-yyyy HH:mm')}"></p>
+            <p style="display:inline" th:text="${tempPost.excerpt}"></p>
+            <a th:href="@{/post/viewpost(postId=${tempPost.id})}">See more...</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;
+            <span sec:authorize="isAuthenticated()">
+            <span th:if="${tempPost.author == #authentication.getPrincipal().getName()}">
+            <form action="#" th:action="@{/post/delete(postId=${tempPost.id})}" th:object="${post}" method="post"
+            onsubmit="if (!(confirm('Are you sure to delete post?'))) return false">
+            <input type="submit" value="Delete Post">
+            </form>
+            </span>
+            </span>
+            <span sec:authorize="hasAuthority('ADMIN')">
+            <form action="#" th:action="@{/post/delete(postId=${tempPost.id})}" th:object="${post}" method="post"
+                  onsubmit="if (!(confirm('Are you sure to delete post?'))) return false">
+            <input type="submit" value="Delete Post">
+            </form>
+            </span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;
+            <span sec:authorize="isAuthenticated()">
+            <span th:if="${tempPost.author == #authentication.getPrincipal().getName()}">
+            <!--<span th:if="${#authentication.getPrincipal().getName()}==${tempPost.author} or ${#authorization.expression('hasRole('ROLE_ADMIN')')}">-->
+            <form action="#" th:action="@{/post/update(postId=${tempPost.id})}" th:object="${post}" method="post">
+            <input type="submit" value="Edit Post">
+            </form>
+            </span>
+            </span>
+            <span sec:authorize="hasAuthority('ADMIN')">
+            <!--<span th:if="${#authentication.getPrincipal().getName()}==${tempPost.author} or ${#authorization.expression('hasRole('ROLE_ADMIN')')}">-->
+            <form action="#" th:action="@{/post/update(postId=${tempPost.id})}" th:object="${post}" method="post">
+            <input type="submit" value="Edit Post">
+            </form>
+            </span>
+            </p>
+        </div>
+        <br>
+        <br>
+    </tr>
+</table>
+<center>
+    <a th:if="${currentPage >1}" th:href="@{'/post/blog/page/' + ${currentPage -1}}">Previous</a>
+        <span th:unless="${currentPage >1}">Previous</span>
+
+    <span th:each="i: ${#numbers.sequence(1,totalPage)}">
+        <a th:href="@{'/post/blog/page/' + ${i}}">[[${i}]]</a>
+    </span>
+    <a th:if="${currentPage <totalPage}" th:href="@{'/post/blog/page/' + ${currentPage +1}}">Next</a>
+    <span th:unless="${currentPage <totalPage}">Next</span>
+    <!-- <input type="submit" value="<< Previous" style="height:42px; width:200px"> -->
+    Total Blogs: [[${totalItem}]] : Page [[${currentPage}]] of [[${totalPage}]]
+    <!--<form action="#" th:action="@{/post/blog(start=${startPage})}" th:object="${post}" method="get">
+        <input type="hidden" th:name="selectedButton" th:value="next">
+    <input type="submit" value="Next >>" style="height:42px; width:200px;">
+    </form>-->
+</center>
+</body>
+</html>
+
+<!--<select id="cars">
+            <option selected disabled>Filter</option>
+            <option th:value="'Author'" th:text="Author"></option>
+            <option value="saab">Saab</option>
+            <option value="opel">Opel</option>
+            <option value="audi">Audi</option>
+        </select>
+        <p th:text="${#temporals.formatISO(localDateTime)}"></p>
+
+        <p th:text="${tempPost.publishedAt}"></p>
+        -->

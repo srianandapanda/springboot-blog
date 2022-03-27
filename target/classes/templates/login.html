@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nesteen-Login</title>
+    <style type="text/css">
+        .center{
+			margin: auto;
+            width: 60%;
+            padding: 10px;
+		}
+    </style>
+</head>
+<body>
+    <div class="center" align="center">
+        <font size="5">
+        <h3>Login</h3><br>
+            <form action="login" method="post">
+                <input type="email" name="username" placeholder="Email" style="width: 250px;height:40px;" required><br><br>
+                <input type="password" name="password" placeholder="Password" style="width: 250px;height:40px;" required><br><br>
+                <input type="submit" value="Submit" style="width: 160px;height:27px;"><br><br>
+            </form>
+        <p>Doesn't have account? <a th:href="@{/post/create}">Create one</a></p>
+        </font>
+    </div>
+</body>
+</html>
